@@ -21,7 +21,7 @@ const LoginFormInput = ({
     <label className={"flex flex-col text-sm gap-2"}>
       {label}
       <div
-        className={`w-full flex rounded-md border pl-4 py-2 ${isError ? "border-red-500" : "focus-within:border-gray-400"}`}
+        className={`bg-background w-full flex rounded-md border pl-4 py-2 ${isError ? "border-red-500" : "focus-within:border-gray-400"}`}
       >
         <input
           className={"w-full bg-transparent outline-0"}

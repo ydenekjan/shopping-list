@@ -42,6 +42,8 @@ const LoginForm = () => {
     if (user) redirect("/");
   }, []);
 
+  console.log(error);
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -61,6 +63,7 @@ const LoginForm = () => {
       })
       .catch((err) => {
         console.log(err.message);
+        setError(true);
       })
       .finally(() => {
         setLoading(false);
@@ -72,7 +75,7 @@ const LoginForm = () => {
     <form
       onSubmit={handleSubmit}
       className={
-        "flex flex-col gap-8 justify-center rounded-3xl border border-gray-200 bg-background shadow-lg p-16 relative text-foreground"
+        "flex flex-col gap-8 justify-center rounded-3xl bg-slate-500/10 backdrop-blur-lg border border-background p-16 relative text-foreground"
       }
     >
       <h2 className={"text-3xl"}>Přihlášení</h2>
@@ -130,7 +133,7 @@ const LoginForm = () => {
           <h3>Ještě nemáte účet?</h3>
           <Link
             className={
-              "flex justify-center w-full py-2 border rounded-lg hover:border-gray-400 transition"
+              "bg-background flex justify-center w-full py-2 border rounded-lg hover:border-gray-400 transition"
             }
             href={"/signup"}
           >

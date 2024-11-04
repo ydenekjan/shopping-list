@@ -13,7 +13,7 @@ const LoginFormCheckbox = ({ formData, setFormData }: IState) => {
       className={"flex gap-2 text-sm relative items-center cursor-pointer"}
     >
       <div
-        className={`flex items-center justify-center aspect-square border rounded-md ${formData.remember ? "bg-primary border-primary" : ""}`}
+        className={`flex items-center justify-center aspect-square border rounded-md ${formData.remember ? "bg-primary border-primary" : "bg-background"}`}
       >
         <input
           type={"checkbox"}

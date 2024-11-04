@@ -7,11 +7,12 @@
   ::before,
   ::after {
     @apply border-gray-300;
+    @apply text-foreground
   }
 }
 
 :root {
-  --background: #fcfcfd;
+  --background: #f2f4f8;
   --foreground: #26282c;
   --primary-light: #b7c4d1;
   --primary: #8599aa;

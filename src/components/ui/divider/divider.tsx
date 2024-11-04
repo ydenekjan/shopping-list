@@ -1,12 +1,14 @@
 const Divider = ({
   orientation = "horizontal",
+  style,
 }: {
   orientation?: "vertical" | "horizontal";
+  style?: string;
 }) => {
-  const style =
+  const ori =
     orientation === "horizontal" ? "w-full h-[1px]" : "h-full w-[1px]";
 
-  return <div className={`my-2 bg-gray-300 ${style}`} />;
+  return <div className={`bg-gray-300 ${ori} ${style}`} />;
 };
 
 export default Divider;
