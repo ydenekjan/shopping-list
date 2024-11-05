@@ -42,8 +42,6 @@ const LoginForm = () => {
     if (user) redirect("/");
   }, []);
 
-  console.log(error);
-
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -62,7 +60,7 @@ const LoginForm = () => {
         }
       })
       .catch((err) => {
-        console.log(err.message);
+        console.error(err.message);
         setError(true);
       })
       .finally(() => {

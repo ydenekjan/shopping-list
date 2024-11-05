@@ -3,10 +3,11 @@ import { ChangeEvent, HTMLInputTypeAttribute } from "react";
 interface ILoginFormInput {
   label?: string;
   name?: string;
-  isError: boolean;
+  isError?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   icon?: React.ReactNode;
   type?: HTMLInputTypeAttribute;
+  disabled?: boolean;
 }
 
 const LoginFormInput = ({
@@ -16,6 +17,7 @@ const LoginFormInput = ({
   isError,
   onChange,
   type = "text",
+  disabled,
 }: ILoginFormInput) => {
   return (
     <label className={"flex flex-col text-sm gap-2"}>
@@ -24,6 +26,8 @@ const LoginFormInput = ({
         className={`bg-background w-full flex rounded-md border pl-4 py-2 ${isError ? "border-red-500" : "focus-within:border-gray-400"}`}
       >
         <input
+          autoFocus={name === "username"}
+          disabled={disabled}
           className={"w-full bg-transparent outline-0"}
           name={name}
           onChange={onChange}

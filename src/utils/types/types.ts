@@ -1,21 +1,31 @@
-export interface IUser {
+export interface IMember {
   _id: string;
+  permissions: {
+    edits: boolean;
+    members: boolean;
+  };
+  user: IUser;
+}
+
+export interface IUser {
+  _id?: string;
   email: string;
   username: string;
   fullName: string;
 }
 
 export interface IItem {
-  isCompleted: boolean;
+  _id?: string;
+  completed: boolean;
   itemName: string;
 }
 
 export interface IList {
-  _id: string;
+  _id?: string;
   dateCreated: string;
-  author: string;
+  author: IUser;
   listName: string;
-  members: string[];
+  members: IMember[];
   items: IItem[];
   isArchived: boolean;
 }
