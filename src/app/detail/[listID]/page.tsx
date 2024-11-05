@@ -192,7 +192,16 @@ const Page = () => {
           {list?.members.map((member, idx) => (
             <div className={"flex justify-between items-center"} key={idx}>
               {member.user.fullName}
-              {edit.members ? <RxCross2 className={"cursor-pointer"} /> : null}
+              {edit.members ? (
+                <RxCross2
+                  onClick={() =>
+                    axios
+                      .post<IList>(`/lists/${listID}/removeMember`, member.user)
+                      .then((res) => setList(res.data))
+                  }
+                  className={"cursor-pointer"}
+                />
+              ) : null}
             </div>
           ))}
         </div>

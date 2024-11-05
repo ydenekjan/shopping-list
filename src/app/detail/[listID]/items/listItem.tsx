@@ -22,7 +22,8 @@ const ListItem = ({
   const [isLoading, setIsLoading] = useState(false);
   const [item, setItem] = useState(itemData);
 
-  const postUpdate = () => {
+  const postUpdate = (event: BaseSyntheticEvent) => {
+    event.preventDefault();
     setIsLoading(true);
 
     axios
