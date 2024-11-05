@@ -5,7 +5,6 @@ import { IItem, IList } from "@/utils/types/types";
 import { axiosInstance as axios } from "@/app/config/axios/axios";
 import { useParams } from "next/navigation";
 import { BaseSyntheticEvent, SetStateAction, useState } from "react";
-import { Base } from "postcss-selector-parser";
 
 const ListItem = ({
   itemData,
