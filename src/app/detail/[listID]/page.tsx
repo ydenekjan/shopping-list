@@ -8,6 +8,7 @@ import {
   RxCheck,
   RxCode,
   RxCross2,
+  RxCrossCircled,
   RxExit,
   RxPencil1,
   RxPlus,
@@ -30,6 +31,7 @@ const Page = () => {
   const [isError, setIsError] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
   const [newItemOpen, setNewItemOpen] = useState<boolean>(false);
+  const [showCompleted, setShowCompleted] = useState(false);
   const [edit, setEdit] = useState({
     items: false,
     members: false,
@@ -104,13 +106,19 @@ const Page = () => {
           </div>
         </div>
         <div className={"flex justify-end gap-4 items-center"}>
-          <RxCheck
-            className={"cursor-pointer"}
-            size={24}
-            onClick={() => {
-              axios.post(`/lists/${listID}/edit`, list);
-            }}
-          />
+          {isAuthor ? (
+            <RxCheck className={"cursor-pointer"} size={24} />
+          ) : (
+            <RxCrossCircled
+              size={24}
+              className={"cursor-pointer"}
+              onClick={() =>
+                axios
+                  .post(`/lists/${listID}/leave`)
+                  .finally(() => redirect("/"))
+              }
+            />
+          )}
           <RxExit
             size={24}
             className={"cursor-pointer"}
@@ -122,8 +130,21 @@ const Page = () => {
       <section className={"h-full mt-2 flex gap-4"}>
         <div className={"flex-grow flex flex-col gap-2 min-w-52"}>
           <div className={"flex justify-between items-center"}>
-            <h4 className={"uppercase text-sm font-bold"}>položky</h4>
-
+            <div className={"flex gap-4"}>
+              <h4 className={"uppercase text-sm font-bold"}>položky</h4>
+              <label className="inline-flex gap-2 items-center justify-between cursor-pointer text-sm">
+                Jen aktivní
+                <input
+                  type="checkbox"
+                  onChange={() => setShowCompleted((prevState) => !prevState)}
+                  name="edits"
+                  checked={showCompleted}
+                  className="sr-only peer"
+                />
+                <div className="relative w-7 h-4 bg-primary-light peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-white after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary-dark"></div>
+                Všechny
+              </label>
+            </div>
             <div className={"flex gap-2 items-center"}>
               {isAuthor ? (
                 <button
@@ -146,15 +167,21 @@ const Page = () => {
             </div>
           </div>
           <div className={"flex flex-col gap-2"}>
-            {list?.items.map((item, idx) => (
-              <ListItem
-                isAuthor={isAuthor}
-                setList={setList as React.Dispatch<SetStateAction<IList>>}
-                key={idx}
-                itemData={item}
-                edit={edit.items}
-              />
-            ))}
+            {list?.items
+              .filter((item) => {
+                if (!showCompleted) {
+                  return !item.completed;
+                } else return item;
+              })
+              .map((item, idx) => (
+                <ListItem
+                  isAuthor={isAuthor}
+                  setList={setList as React.Dispatch<SetStateAction<IList>>}
+                  key={idx}
+                  itemData={item}
+                  edit={edit.items}
+                />
+              ))}
             <NewItem
               visible={newItemOpen}
               setVisible={setNewItemOpen}
@@ -170,23 +197,25 @@ const Page = () => {
             <h4 className={"uppercase text-sm font-bold "}>členové</h4>
             <div className={"flex gap-2 items-center"}>
               {isAuthor ? (
-                <button
-                  onClick={() =>
-                    setEdit((prevState) => ({
-                      ...prevState,
-                      members: !prevState.members,
-                    }))
-                  }
-                  className={"text-xs font-bold uppercase"}
-                >
-                  edit
-                </button>
+                <>
+                  <button
+                    onClick={() =>
+                      setEdit((prevState) => ({
+                        ...prevState,
+                        members: !prevState.members,
+                      }))
+                    }
+                    className={"text-xs font-bold uppercase"}
+                  >
+                    edit
+                  </button>
+                  <RxPlus
+                    className={"cursor-pointer"}
+                    onClick={() => setModalOpen(true)}
+                    size={20}
+                  />
+                </>
               ) : null}
-              <RxPlus
-                className={"cursor-pointer"}
-                onClick={() => setModalOpen(true)}
-                size={20}
-              />
             </div>
           </div>
           {list?.members.map((member, idx) => (

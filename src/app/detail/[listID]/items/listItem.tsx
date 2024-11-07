@@ -4,7 +4,7 @@ import { RxCheck, RxCross2 } from "react-icons/rx";
 import { IItem, IList } from "@/utils/types/types";
 import { axiosInstance as axios } from "@/app/config/axios/axios";
 import { useParams } from "next/navigation";
-import { BaseSyntheticEvent, SetStateAction, useState } from "react";
+import { BaseSyntheticEvent, SetStateAction, useEffect, useState } from "react";
 
 const ListItem = ({
   itemData,
@@ -22,8 +22,8 @@ const ListItem = ({
   const [isLoading, setIsLoading] = useState(false);
   const [item, setItem] = useState(itemData);
 
-  const postUpdate = (event: BaseSyntheticEvent) => {
-    event.preventDefault();
+  const postUpdate = (event?: BaseSyntheticEvent) => {
+    event?.preventDefault();
     setIsLoading(true);
 
     axios
@@ -36,6 +36,12 @@ const ListItem = ({
       })
       .finally(() => setIsLoading(false));
   };
+
+  useEffect(() => {
+    if (!isAuthor) {
+      postUpdate();
+    }
+  }, [item.completed]);
 
   return (
     <form
@@ -68,11 +74,9 @@ const ListItem = ({
           }
         />
       </label>
-      <div
-        className={`flex gap-2 ${!edit ? "border-transparent" : " "} border rounded-md px-2 items-center`}
-      >
+      <div className={`flex gap-2 items-center`}>
         <input
-          className={"outline-0 bg-background"}
+          className={`outline-0 bg-background border px-2 rounded-md ${!edit ? "border-transparent" : ""}`}
           disabled={!edit}
           value={item.itemName}
           onChange={(event: BaseSyntheticEvent) =>
