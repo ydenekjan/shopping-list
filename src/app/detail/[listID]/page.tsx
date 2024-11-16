@@ -5,11 +5,9 @@ import React, { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import { axiosInstance as axios } from "@/app/config/axios/axios";
 import { IItem, IList } from "@/utils/types/types";
 import {
-  RxCheck,
   RxCode,
   RxCross2,
   RxCrossCircled,
-  RxExit,
   RxPencil1,
   RxPlus,
 } from "react-icons/rx";
