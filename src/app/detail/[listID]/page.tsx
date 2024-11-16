@@ -19,6 +19,7 @@ import { useUserContext } from "@/app/context/userContext";
 import NewMemberModal from "@/components/modals/newMemberModal/newMemberModal";
 import ListItem from "@/app/detail/[listID]/items/listItem";
 import NewItem from "@/app/detail/[listID]/items/newItem";
+import { HiArrowUturnLeft } from "react-icons/hi2";
 
 const Page = () => {
   const params = useParams();
@@ -107,7 +108,13 @@ const Page = () => {
         </div>
         <div className={"flex justify-end gap-4 items-center"}>
           {isAuthor ? (
-            <RxCheck className={"cursor-pointer"} size={24} />
+            <RxCrossCircled
+              className={"cursor-pointer"}
+              size={24}
+              onClick={() =>
+                axios.delete(`/lists/${listID}`).finally(() => redirect("/"))
+              }
+            />
           ) : (
             <RxCrossCircled
               size={24}
@@ -119,8 +126,8 @@ const Page = () => {
               }
             />
           )}
-          <RxExit
-            size={24}
+          <HiArrowUturnLeft
+            size={22}
             className={"cursor-pointer"}
             onClick={() => redirect("/")}
           />
@@ -176,7 +183,7 @@ const Page = () => {
               .map((item, idx) => (
                 <ListItem
                   isAuthor={isAuthor}
-                  setList={setList as React.Dispatch<SetStateAction<IList>>}
+                  setList={setList}
                   key={idx}
                   itemData={item}
                   edit={edit.items}

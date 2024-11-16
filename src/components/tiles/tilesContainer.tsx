@@ -7,7 +7,7 @@ import { axiosInstance as axios } from "@/app/config/axios/axios";
 import { useUserContext } from "@/app/context/userContext";
 import { RxCode } from "react-icons/rx";
 
-const TilesContainer = () => {
+const TilesContainer = ({ showArchived }: { showArchived: boolean }) => {
   const { user } = useUserContext();
   const [lists, setLists] = useState<IList[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,11 @@ const TilesContainer = () => {
     return <>Zadání neodpovídají žádné seznamy.</>;
   }
 
-  return lists.map((list, idx) => <ListTile listData={list} key={idx} />);
+  return lists
+    .filter((list) => (showArchived ? true : !list.archived))
+    .map((list, idx) => (
+      <ListTile setLists={setLists} listData={list} key={idx} />
+    ));
 };
 
 export default TilesContainer;

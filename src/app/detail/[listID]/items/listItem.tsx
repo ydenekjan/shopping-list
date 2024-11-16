@@ -14,7 +14,7 @@ const ListItem = ({
 }: {
   itemData: IItem;
   edit: boolean;
-  setList: React.Dispatch<SetStateAction<IList>>;
+  setList: React.Dispatch<SetStateAction<IList | null>>;
   isAuthor: boolean;
 }) => {
   const params = useParams();
@@ -43,6 +43,12 @@ const ListItem = ({
     }
   }, [item.completed]);
 
+  useEffect(() => {
+    setItem(itemData);
+  }, [itemData]);
+
+  console.log(item);
+
   return (
     <form
       onSubmit={postUpdate}
@@ -53,6 +59,7 @@ const ListItem = ({
           className={"cursor-pointer"}
           onClick={() => {
             setIsLoading(true);
+            console.log(item._id);
             axios
               .post<IList>(`/lists/${listID}/removeItem?itemId=${item._id}`)
               .then((res) => setList(res.data))

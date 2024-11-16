@@ -27,5 +27,5 @@ export interface IList {
   listName: string;
   members: IMember[];
   items: IItem[];
-  isArchived: boolean;
+  archived: boolean;
 }
